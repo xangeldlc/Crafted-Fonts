@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crafted-Fonts</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+    <link rel="icon" href="favicon.png" type="image/png">
+</head>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+:root {
+    --primary-color: #4CAF50;
+    --primary-dark: #45a049;
+    --secondary-color: #2196F3;
+    --background-color: #f4f4f4;
+    --card-background: #ffffff;
+    --text-color: #333333;
+    --border-color: #dddddd;
+    --input-background: #ffffff;
+    --char-item-bg: #ffffff;
+    --char-item-border: #dddddd;
+    --toast-bg: #333333;
+    --toast-text: #ffffff;
+}
+
+.dark-mode {
+    --primary-color: #2b4047;
+    --primary-dark: #6da0b3;
+    --secondary-color: #42a5f5;
+    --background-color: #121212;
+    --card-background: #1e1e1e;
+    --text-color: #e0e0e0;
+    --border-color: #333333;
+    --input-background: #2c2c2c;
+    --char-item-bg: #2c2c2c;
+    --char-item-border: #444444;
+    --toast-bg: #e0e0e0;
+    --toast-text: #333333;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+header {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    padding: 2rem 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+main {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 1rem;
+    border: none;
+    background-color: var(--card-background);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.tab-button:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.tab-button.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.tab-content {
+    display: none;
+    background-color: var(--card-background);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+input[type="text"],
+input[type="file"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+    background-color: var(--input-background);
+    color: var(--text-color);
+}
+
+input[type="text"]:focus,
+input[type="file"]:focus,
+input[type="number"]:focus,
+select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
+}
+
+.btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(76, 175, 80, 0.2);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    box-shadow: 0 2px 4px rgba(33, 150, 243, 0.2);
+}
+
+.btn-secondary:hover {
+    background-color: #1976D2;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(33, 150, 243, 0.2);
+}
+
+.image-list, .file-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.image-item, .file-item {
+    background-color: var(--card-background);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+
+.image-item:hover {
+    transform: translateY(-2px);
+}
+
+.image-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: contain;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    background-color: var(--input-background);
+    padding: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.image-item p {
+    margin: 0.5rem 0;
+    font-weight: 500;
+    word-break: break-all;
+}
+
+.image-item label {
+    display: block;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+.image-item input[type="number"],
+.image-item input[type="text"] {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+.charLibrary {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: var(--char-item-bg);
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.charItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--char-item-border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+    background-color: var(--char-item-bg);
+    color: var(--text-color);
+}
+
+.charItem:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: scale(1.1);
+}
+
+.charItem.used {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: var(--border-color);
+}
+
+button[id^="showChars-"] {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    background-color: var(--input-background);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-color);
+}
+
+button[id^="showChars-"]:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--toast-bg);
+    color: var(--toast-text);
+    padding: 1rem 1.5rem;
+    border-radius: 4px;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    animation: slideIn 0.3s ease;
+}
+
+.toast.success {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.toast.error {
+    background-color: #f44336;
+    color: white;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.theme-switch-wrapper {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.theme-switch {
+    display: inline-block;
+    height: 34px;
+    position: relative;
+    width: 60px;
+}
+
+.theme-switch input {
+    display: none;
+}
+
+.slider {
+    background-color: #ccc;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    background-color: #fff;
+    bottom: 4px;
+    content: "";
+    height: 26px;
+    left: 4px;
+    position: absolute;
+    transition: .4s;
+    width: 26px;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+@media (max-width: 600px) {
+    main {
+        padding: 0 0.5rem;
+    }
+
+    .tab-content {
+        padding: 1rem;
+    }
+
+    .image-list, .file-list {
+        grid-template-columns: 1fr;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .theme-switch-wrapper {
+        top: 10px;
+        right: 10px;
+    }
+}
+</style>
+<body>
+    <header>
+        <h1>Generador de Paquetes de Texturas de Minecraft</h1>
+        <p>Crea y modifica paquetes de texturas para Minecraft de forma fácil y rápida.</p>
+        <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider round"></div>
+            </label>
+        </div>
+    </header>
+
+    <main>
+        <div class="tabs">
+            <button class="tab-button active" data-tab="new-pack">Nuevo Paquete</button>
+            <button class="tab-button" data-tab="modify-pack">Modificar Existente</button>
+        </div>
+
+        <div class="tab-content active" id="new-pack">
+            <form id="newPackForm">
+                <div class="form-group">
+                    <label for="packName">Nombre del Paquete de Texturas:</label>
+                    <input type="text" id="packName" required placeholder="Mi Paquete de Texturas">
+                </div>
+
+                <div class="form-group">
+                    <label for="gameVersion">Versión del Juego:</label>
+                    <select id="gameVersion" required>
+                        <option value="">Selecciona la versión</option>
+                        <option value="15">1.20.x</option>
+                        <option value="13">1.19.4</option>
+                        <option value="12">1.19.3</option>
+                        <option value="9">1.19 - 1.19.2</option>
+                        <option value="8">1.18.x</option>
+                        <option value="7">1.17.x</option>
+                        <option value="6">1.16.2 - 1.16.5</option>
+                        <option value="5">1.15 - 1.16.1</option>
+                        <option value="4">1.13 - 1.14.4</option>
+                        <option value="3">1.11 - 1.12.2</option>
+                        <option value="2">1.9 - 1.10.2</option>
+                        <option value="1">1.6.1 - 1.8.9</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="imageUpload">Subir Imágenes PNG:</label>
+                    <input type="file" id="imageUpload" accept=".png" multiple>
+                    <div id="imageList" class="image-list"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="fileUpload">Subir Archivos Adicionales:</label>
+                    <input type="file" id="fileUpload" multiple>
+                    <div id="fileList" class="file-list"></div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Generar Nuevo Paquete de Texturas</button>
+            </form>
+        </div>
+
+        <div class="tab-content" id="modify-pack">
+            <form id="existingPackForm">
+                <div class="form-group">
+                    <label for="existingZip">Cargar ZIP existente:</label>
+                    <input type="file" id="existingZip" accept=".zip">
+                </div>
+
+                <div id="extractedContent" style="display: none;">
+                    <h3>Contenido Extraído</h3>
+                    <div id="extractedImages"></div>
+                    <div id="extractedConfig"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="additionalImageUpload">Subir Imágenes PNG adicionales:</label>
+                    <input type="file" id="additionalImageUpload" accept=".png" multiple>
+                    <div id="additionalImageList" class="image-list"></div>
+                </div>
+
+                <button type="submit" class="btn btn-secondary">Generar Paquete de Texturas Modificado</button>
+            </form>
+        </div>
+    </main>
+
+    <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const newPackForm = document.getElementById('newPackForm');
+    const existingPackForm = document.getElementById('existingPackForm');
+    const imageUpload = document.getElementById('imageUpload');
+    const additionalImageUpload = document.getElementById('additionalImageUpload');
+    const fileUpload = document.getElementById('fileUpload');
+    const existingZip = document.getElementById('existingZip');
+    const imageList = document.getElementById('imageList');
+    const additionalImageList = document.getElementById('additionalImageList');
+    const fileList = document.getElementById('fileList');
+    const extractedContent = document.getElementById('extractedContent');
+    const extractedImages = document.getElementById('extractedImages');
+    const extractedConfig = document.getElementById('extractedConfig');
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+
+    let images = [];
+    let additionalImages = [];
+    let additionalFiles = [];
+    let existingZipContent = null;
+
+    const charLibrary = [
+        'ツ', '♋', '웃', '유', 'Σ', '⊗', '♒', '☠', '☮', '☯', '♠', 'Ω', '♤', '♣', '♧', '♥', '♡', '♦', '♢', '♔', '♕', '♚', '♛', '★', '☆', '✮', '✯', '☄', '☾', '☽', '☼', '☀', '☁', '☂', '☃', '☻', '☺', '۞', '۩', '♬', '✄', '✂', '✆', '✉', '✦', '✧', '∞', '♂', '♀', '☿', '❤', '❥', '❦', '❧', '™', '®', '©', '✗', '✘', '⊗', '♒', '▢', '▲', '△', '▼', '▽', '◆', '◇', '○', '◎', '●', '◯', 'Δ', '◕', '◔', 'ʊ', 'ϟ', 'ღ', '回', '₪', '✓', '✔', '✕', '✖', '☢', '☣', '☤', '☥', '☦', '☧', '☨', '☩', '☪', '☫', '☬', '☭'
+    ];
+
+    let usedChars = new Set();
+
+    function switchTheme(e) {
+        if (e.target.checked) {
+            document.documentElement.setAttribute('class', 'dark-mode');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('class', '');
+            localStorage.setItem('theme', 'light');
+        }    
+    }
+
+    toggleSwitch.addEventListener('change', switchTheme, false);
+
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme) {
+        document.documentElement.setAttribute('class', currentTheme === 'dark' ? 'dark-mode' : '');
+        if (currentTheme === 'dark') {
+            toggleSwitch.checked = true;
+        }
+    }
+
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            button.classList.add('active');
+            document.getElementById(button.dataset.tab).classList.add('active');
+        });
+    });
+
+    imageUpload.addEventListener('change', (e) => {
+        const files = Array.from(e.target.files).filter(file => file.type === 'image/png');
+        images = [...images, ...files];
+        updateImageList(imageList, images);
+    });
+
+    additionalImageUpload.addEventListener('change', (e) => {
+        const files = Array.from(e.target.files).filter(file => file.type === 'image/png');
+        additionalImages = [...additionalImages, ...files];
+        updateImageList(additionalImageList, additionalImages);
+    });
+
+    fileUpload.addEventListener('change', (e) => {
+        additionalFiles = [...additionalFiles, ...Array.from(e.target.files)];
+        updateFileList();
+    });
+
+    existingZip.addEventListener('change', handleZipUpload);
+
+    async function handleZipUpload(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        try {
+            const zip = await JSZip.loadAsync(file);
+            existingZipContent = zip;
+            
+            const imageFiles = [];
+            zip.folder("assets/along/textures/font").forEach((relativePath, file) => {
+                if (file.name.endsWith('.png')) {
+                    imageFiles.push(file);
+                }
+            });
+
+            let defaultJson;
+            try {
+                const defaultJsonContent = await zip.file("assets/minecraft/font/default.json").async("string");
+                defaultJson = JSON.parse(defaultJsonContent);
+            } catch (error) {
+                throw new Error("No se pudo encontrar o parsear el archivo default.json");
+            }
+
+            displayExtractedContent(imageFiles, defaultJson);
+        } catch (error) {
+            showToast(`Error al procesar el archivo ZIP: ${error.message}`, 'error');
+        }
+    }
+
+    function displayExtractedContent(imageFiles, defaultJson) {
+        extractedImages.innerHTML = '<h4>Imágenes Extraídas:</h4>';
+        imageFiles.forEach(file => {
+            extractedImages.innerHTML += `<p>${file.name}</p>`;
+        });
+
+        extractedConfig.innerHTML = '<h4>Configuración Extraída:</h4>';
+        defaultJson.providers.forEach(provider => {
+            extractedConfig.innerHTML += `
+                <div>
+                    <p>Imagen: ${provider.file}</p>
+                    <p>Ascent: ${provider.ascent}</p>
+                    <p>Height: ${provider.height}</p>
+                    <p>Chars: ${provider.chars.join(', ')}</p>
+                </div>
+            `;
+        });
+
+        extractedContent.style.display = 'block';
+        updateImageList(additionalImageList, imageFiles, defaultJson.providers);
+    }
+
+    function updateImageList(listElement, imageArray, providers = []) {
+        listElement.innerHTML = '';
+        imageArray.forEach((image, index) => {
+            const item = document.createElement('div');
+            item.className = 'image-item';
+            const fileName = image.name || image;
+            const provider = providers[index] || {};
+            
+            const imageUrl = image instanceof File ? URL.createObjectURL(image) : null;
+            
+            item.innerHTML = `
+                ${imageUrl ? `<img src="${imageUrl}" alt="${fileName}">` : ''}
+                <p>${fileName}</p>
+                <label>
+                    Ascent:
+                    <input type="number" id="ascent-${index}" value="${provider.ascent || 9}">
+                </label>
+                <label>
+                    Height:
+                    <input type="number" id="height-${index}" value="${provider.height || 11}">
+                </label>
+                <label>
+                    Chars:
+                    <input type="text" id="chars-${index}" value="${provider.chars ? provider.chars[0] : charLibrary[0]}">
+                </label>
+                <button type="button" class="btn btn-secondary" id="showChars-${index}" style="margin-top: 0.5rem; width: 100%;">
+                    Mostrar caracteres
+                </button>
+                <div id="charLibrary-${index}" class="charLibrary" style="display: none;"></div>
+            `;
+            listElement.appendChild(item);
+
+            const charLibraryElement = document.getElementById(`charLibrary-${index}`);
+            const charsInput = document.getElementById(`chars-${index}`);
+            const showCharsButton = document.getElementById(`showChars-${index}`);
+            
+            showCharsButton.addEventListener('click', () => {
+                if (charLibraryElement.style.display === 'none') {
+                    charLibraryElement.style.display = 'grid';
+                    showCharsButton.textContent = 'Ocultar caracteres';
+                } else {
+                    charLibraryElement.style.display = 'none';
+                    showCharsButton.textContent = 'Mostrar caracteres';
+                }
+            });
+
+            charLibrary.forEach(char => {
+                const charItem = document.createElement('div');
+                charItem.className = 'charItem';
+                charItem.textContent = char;
+                if (usedChars.has(char)) {
+                    charItem.classList.add('used');
+                } else {
+                    charItem.addEventListener('click', () => {
+                        charsInput.value = char;
+                        updateUsedChars();
+                    });
+                }
+                charLibraryElement.appendChild(charItem);
+            });
+
+            charsInput.addEventListener('change', updateUsedChars);
+        });
+        updateUsedChars();
+    }
+
+    function updateUsedChars() {
+        usedChars.clear();
+        document.querySelectorAll('[id^="chars-"]').forEach(input => {
+            usedChars.add(input.value);
+        });
+        document.querySelectorAll('.charItem').forEach(item => {
+            if (usedChars.has(item.textContent)) {
+                item.classList.add('used');
+            } else {
+                item.classList.remove('used');
+            }
+        });
+    }
+
+    function updateFileList() {
+        fileList.innerHTML = '';
+        additionalFiles.forEach((file, index) => {
+            const item = document.createElement('div');
+            item.className = 'file-item';
+            item.innerHTML = `
+                <p>${file.name}</p>
+                <label>Ruta en el paquete:
+                    <input type="text" id="path-${index}" value="${file.name}">
+                </label>
+            `;
+            fileList.appendChild(item);
+        });
+    }
+
+    newPackForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const packName = document.getElementById('packName').value;
+        const gameVersion = document.getElementById('gameVersion').value;
+
+        if (!packName || !gameVersion) {
+            showToast('Por favor, completa todos los campos requeridos', 'error');
+            return;
+        }
+
+        let zip = new JSZip();
+
+        const packMcmeta = {
+            pack: {
+                pack_format: parseInt(gameVersion),
+                description: packName
+            }
+        };
+        zip.file("pack.mcmeta", JSON.stringify(packMcmeta, null, 2));
+
+        const defaultJson = {
+            providers: images.map((image, index) => ({
+                type: "bitmap",
+                file: `along:font/${image.name}`,
+                ascent: parseInt(document.getElementById(`ascent-${index}`).value),
+                height: parseInt(document.getElementById(`height-${index}`).value),
+                chars: [document.getElementById(`chars-${index}`).value]
+            }))
+        };
+        zip.file("assets/minecraft/font/default.json", JSON.stringify(defaultJson, null, 2));
+
+        for (let image of images) {
+            const imageData = await readFileAsArrayBuffer(image);
+            zip.file(`assets/along/textures/font/${image.name}`, imageData);
+        }
+
+        for (let i = 0; i < additionalFiles.length; i++) {
+            const file = additionalFiles[i];
+            const path = document.getElementById(`path-${i}`).value;
+            const fileData = await readFileAsArrayBuffer(file);
+            zip.file(path, fileData);
+        }
+
+        generateAndDownloadZip(zip, packName);
+    });
+
+    existingPackForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!existingZipContent) {
+            showToast("Por favor, carga un archivo ZIP existente primero.", 'error');
+            return;
+        }
+
+        let zip = existingZipContent;
+
+        try {
+            const defaultJsonContent = await zip.file("assets/minecraft/font/default.json").async("string");
+            let defaultJson = JSON.parse(defaultJsonContent);
+
+            const newProviders = additionalImages.map((image, index) => ({
+                type: "bitmap",
+                file: `along:font/${image.name}`,
+                ascent: parseInt(document.getElementById(`ascent-${index}`).value),
+                height: parseInt(document.getElementById(`height-${index}`).value),
+                chars: [document.getElementById(`chars-${index}`).value]
+            }));
+
+            defaultJson.providers = [...defaultJson.providers, ...newProviders];
+            zip.file("assets/minecraft/font/default.json", JSON.stringify(defaultJson, null, 2));
+
+            for (let image of additionalImages) {
+                const imageData = await readFileAsArrayBuffer(image);
+                zip.file(`assets/along/textures/font/${image.name}`, imageData);
+            }
+
+            generateAndDownloadZip(zip, "modified_texture_pack");
+        } catch (error) {
+            showToast(`Error al modificar el paquete: ${error.message}`, 'error');
+        }
+    });
+
+    function generateAndDownloadZip(zip, fileName) {
+        zip.generateAsync({type:"blob"})
+        .then(function(content) {
+            const url = URL.createObjectURL(content);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${fileName}.zip`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast("Paquete de texturas generado con éxito", 'success');
+        })
+        .catch(function(error) {
+            showToast(`Error al generar el archivo: ${error.message}`, 'error');
+        });
+    }
+
+    function readFileAsArrayBuffer(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target.result);
+            reader.onerror = (e) => reject(e);
+            reader.readAsArrayBuffer(file);
+        });
+    }
+
+    function showToast(message, type = 'info') {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.className = `toast ${type}`;
+        toast.style.display = 'block';
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 3000);
+    }
+});
+
+</script>
+</body>
+</html>
+
+
