@@ -1,0 +1,374 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+:root {
+    --primary-color: #ffcc80;
+    --primary-dark: #ffa726;
+    --secondary-color: #cfd8dc;
+    --background-color: #b8d5e2;
+    --card-background: #f5f5f5;
+    --text-color: #212121;
+    --border-color: #e0e0e0;
+    --input-background: #f9f9f9;
+    --input-text: #388e3c;
+    --char-item-bg: #f0f0f0;
+    --char-item-border: #e0e0e0;
+    --toast-bg: #f5f5f5;
+    --toast-text: #212121;
+    --accent-color: #66bb6a;
+    --header-color: #d8e9f0;
+}
+
+.dark-mode {
+    --primary-color: #f57c00;
+    --primary-dark: #ef6c00;
+    --secondary-color: #455a64;
+    --background-color: #1b1919;
+    --card-background: #1a1a1a;
+    --text-color: #ffffff;
+    --border-color: #2d2d2d;
+    --input-background: #0a0a0a;
+    --input-text: #4caf50;
+    --char-item-bg: #141414;
+    --char-item-border: #2d2d2d;
+    --toast-bg: #2d2d2d;
+    --toast-text: #ffffff;
+    --accent-color: #43a047;
+    --header-color: #212121;
+
+}
+
+body {
+    font-family: 'VT323', monospace;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    background-repeat: repeat;
+    background-size: 64px 64px;
+    image-rendering: pixelated;
+}
+
+header {
+    background-color: var(--header-color);
+    color: var(--text-color);
+    text-align: center;
+    padding: 2rem 0;
+    border-bottom: 2px solid var(--border-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.minecraft-title {
+    color: #208625;
+
+    bold {
+        color: #d6c66c;
+        font-weight:lighter;
+    }
+}
+
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px rgba(0, 0, 0, 0.5);
+}
+
+main {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.85);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-background);
+}
+
+.tab-button {
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    padding: 0.75rem 1.5rem;
+    background-color: transparent;
+    color: var(--text-color);
+    border: none;
+    border-right: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-button:hover, .tab-button.active {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+}
+
+.tab-content {
+    display: none;
+    background-color: var(--card-background);
+    padding: 1rem;
+    border: 1px solid var(--border-color);
+}
+
+.tab-content.active {
+    display: block;
+}
+
+label {
+    font-size: 1.2rem;
+    color: var(--text-color);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    width: 100%;
+    padding: 0.5rem;
+    background-color: var(--input-background);
+    color: var(--input-text);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+input[type="file"] {
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    width: 100%;
+    background-color: var(--input-background);
+    color: var(--text-color);
+    border: 2px dashed var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input[type="file"]:hover {
+    border-color: var(--primary-color);
+}
+
+input[type="file"]::file-selector-button {
+    font-family: 'VT323', monospace;
+    font-size: 1rem;
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 1rem;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+}
+
+.help-text {
+    font-size: 1rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+}
+
+.image-list, .file-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+.toast {
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    background-color: var(--toast-bg);
+    color: var(--toast-text);
+    border: 1px solid var(--border-color);
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+footer {
+    background-color: var(--header-color);
+    color: var(--text-color);
+    padding: 1rem 0;
+    text-align: center;
+    border-top: 2px solid var(--border-color);
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.btn {
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary-color);
+    color: var(--background-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: none;
+}
+
+.btn:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.btn-donate {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+}
+
+.btn-donate:hover {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+}
+
+.image-item, .file-item {
+    background-color: var(--char-item-bg);
+    border: 1px solid var(--char-item-border);
+    padding: 1rem;
+    position: relative;
+    border-radius: 4px;
+}
+
+.image-item input[type="text"],
+.image-item input[type="number"] {
+    background-color: var(--input-background);
+    color: var(--input-text);
+    border: 1px solid var(--border-color);
+    padding: 0.525rem 0.1rem;
+    width: 100%;
+    margin-bottom: 0.5rem;
+}
+
+.remove-image {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(244, 67, 54, 0.8);
+    color: white;
+    border: none;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.remove-image:hover {
+    background-color: #f44336;
+    transform: scale(1.1);
+}
+
+.theme-switch-wrapper {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.theme-switch {
+    display: inline-block;
+    height: 34px;
+    position: relative;
+    width: 60px;
+}
+
+.theme-switch input {
+    display: none;
+}
+
+.slider {
+    background-color: var(--input-background);
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    background-color: var(--primary-color);
+    bottom: 4px;
+    content: "";
+    height: 26px;
+    left: 4px;
+    position: absolute;
+    transition: .4s;
+    width: 26px;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: var(--secondary-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+@media (max-width: 600px) {
+    main {
+        padding: 0.5rem;
+    }
+
+    .tab-content {
+        padding: 0.5rem;
+    }
+
+    .image-list, .file-list {
+        grid-template-columns: 1fr;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .theme-switch-wrapper {
+        top: 10px;
+        right: 10px;
+    }
+}
+
+.image-item img {
+    width: 100%;
+    height: 150px;
+    object-fit: contain;
+    background-color: var(--input-background);
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+}
+
+
+.image-item p {
+    word-wrap: break-word;
+}
