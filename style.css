@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
-:root {
+:dark-mode {
     --primary-color: #ffcc80;
     --primary-dark: #ffa726;
     --secondary-color: #cfd8dc;
@@ -18,7 +18,7 @@
     --header-color: #d8e9f0;
 }
 
-.dark-mode {
+:root {
     --primary-color: #f57c00;
     --primary-dark: #ef6c00;
     --secondary-color: #455a64;
