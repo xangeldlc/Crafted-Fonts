@@ -44,6 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentTheme === 'dark') {
             toggleSwitch.checked = true;
         }
+    } else {
+        // Set dark mode as default if no theme is stored in localStorage
+        document.documentElement.setAttribute('class', 'dark-mode');
+        toggleSwitch.checked = true;
+        localStorage.setItem('theme', 'dark');
     }
 
     tabButtons.forEach(button => {
@@ -340,4 +345,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     }
 });
-
